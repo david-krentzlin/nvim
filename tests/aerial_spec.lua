@@ -21,12 +21,12 @@ assert(Config.aerial_config.layout.placement == 'edge')
 assert(Config.aerial_config.layout.min_width >= 28)
 
 for _, kind in ipairs(expected_kinds) do
-  assert(type(Config.aerial_config.icons[kind]) == 'string')
+  assert(Config.aerial_config.icons[kind] == MiniIcons.get('lsp', kind))
 end
 
-local outline = vim.fn.maparg('<Space>o', 'n', false, true)
+local outline = vim.fn.maparg('<Space>s', 'n', false, true)
 assert(outline.desc == 'Toggle outline')
 assert(outline.rhs == '<Cmd>AerialToggle<CR>')
-assert(vim.fn.maparg('<Space>s', 'n') ~= '<Cmd>AerialToggle<CR>')
+assert(vim.fn.maparg('<Space>o', 'n') == '')
 assert(vim.fn.maparg('{', 'n', false, true).rhs ~= '<Cmd>AerialPrev<CR>')
 assert(vim.fn.maparg('}', 'n', false, true).rhs ~= '<Cmd>AerialNext<CR>')

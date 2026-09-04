@@ -51,7 +51,7 @@ Config.now(function()
   local icons = {}
   local mini_icons = require('mini.icons')
   for _, kind in ipairs(Config.aerial_kinds) do
-    icons[kind] = mini_icons.get('lsp', kind:lower()) .. ' '
+    icons[kind] = mini_icons.get('lsp', kind)
   end
 
   Config.aerial_config = {

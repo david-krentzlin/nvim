@@ -7,7 +7,9 @@ end
 for _, lhs in ipairs({
   'mm', 'ma', 'mi', 'mig', 'mg',
   '<Space>e', '<Space>.', '<Space>f', '<Space>F', '<Space>b', '<Space>j',
-  '<Space>g', '<Space>o', '<Space>d', '<Space>D', '<Space>w', '<Space>c',
+  '<Space>g', '<Space>s', '<Space>d', '<Space>D', '<Space>ww', '<Space>wv',
+  '<Space>ws', '<Space>wh', '<Space>wj', '<Space>wk', '<Space>wl', '<Space>wq',
+  '<Space>wo', '<Space>wH', '<Space>wJ', '<Space>wK', '<Space>wL', '<Space>c',
   '<Space>C', '<Space>p', '<Space>P', '<Space>y', '<Space>Y', '<Space>R',
   '<Space>/', '<Space>?', '<Space>*',
 }) do
@@ -23,8 +25,13 @@ for _, lhs in ipairs({ '<Space>mj', '<Space>mk', '<Space>mn', '<Space>mN', '<Spa
   assert(map('x', lhs).desc ~= nil, lhs .. ' has no description')
 end
 
+vim.wait(100)
 assert(vim.fn.maparg('<Left>', 'i') == '')
 assert(vim.fn.maparg('<Right>', 'i') == '')
 assert(vim.fn.maparg('<Space>mf', 'n') == '')
 assert(vim.fn.maparg('<Space>mr', 'n') == '')
 assert(vim.fn.maparg('<Space>mt', 'n') == '')
+assert(MiniCompletion.config.lsp_completion.auto_setup)
+assert(MiniCompletion.config.lsp_completion.source_func == 'omnifunc')
+assert(vim.g.minicompletion_disable == nil)
+assert(vim.fn.maparg('<C-i>', 'i') ~= '')

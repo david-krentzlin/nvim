@@ -147,13 +147,23 @@ now(function() require('mini.tabline').setup() end)
 -- It also works with snippet candidates provided by LSP server. Best experience
 -- when paired with 'mini.snippets' (which is set up in this file).
 now_if_args(function()
-  vim.g.minicompletion_disable = true
-
-  -- Keep LSP completion manual with `<C-x><C-o>`.
-  local on_attach = function(ev)
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+  local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
+  local process_items = function(items, base)
+    return MiniCompletion.default_process_items(items, base, process_items_opts)
   end
-  Config.new_autocmd('LspAttach', nil, on_attach, "Set 'omnifunc'")
+  require('mini.completion').setup({
+    lsp_completion = {
+      auto_setup = true,
+      process_items = process_items,
+      source_func = 'omnifunc',
+    },
+  })
+  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
+
+  local on_attach = function(ev)
+    vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  end
+  Config.new_autocmd('LspAttach', nil, on_attach, 'Set LSP omnifunc')
 end)
 
 -- Miscellaneous small but useful functions. Example usage:
@@ -499,6 +509,7 @@ later(function()
   -- Navigate 'mini.completion' menu with `<Tab>` /  `<S-Tab>`
   MiniKeymap.map_multistep('i', '<Tab>', { 'pmenu_next' })
   MiniKeymap.map_multistep('i', '<S-Tab>', { 'pmenu_prev' })
+  MiniKeymap.map_multistep('i', '<C-i>', { 'pmenu_accept' })
   -- On `<CR>` try to accept current completion item, fall back to accounting
   -- for pairs from 'mini.pairs'
   MiniKeymap.map_multistep('i', '<CR>', { 'pmenu_accept', 'minipairs_cr' })

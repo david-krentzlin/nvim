@@ -34,7 +34,7 @@ vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit ShaDa file (for startup)
 vim.o.breakindent    = true       -- Indent wrapped lines to match line start
 vim.o.breakindentopt = 'list:-1'  -- Add padding for lists (if 'wrap' is set)
 vim.o.colorcolumn    = '+1'       -- Draw column on the right of maximum width
-vim.o.cursorline     = true       -- Enable current line highlighting
+vim.o.cursorline     = false      -- Keep current line unhighlighted
 vim.o.guicursor      = 'n-c:block,i-ci:ver25,v-ve-r-cr-o:hor20'
 vim.o.linebreak      = true       -- Wrap lines at 'breakat' (if 'wrap' is set)
 vim.o.list           = true       -- Show helpful text indicators
@@ -53,7 +53,6 @@ vim.o.termguicolors  = true       -- Enable true color
 vim.o.winborder      = 'single'   -- Use border in floating windows
 vim.o.wrap           = false      -- Don't visually wrap lines (toggle with \w)
 
-vim.o.cursorlineopt  = 'screenline,number' -- Show cursor line per screen line
 vim.o.relativenumber  = true                      -- Show relative line numbers
 
 -- Special UI symbols. More is set via 'mini.basics' later.
@@ -89,7 +88,7 @@ vim.o.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
 
 -- Built-in completion
 vim.o.complete        = '.,w,b,kspell'                  -- Use less sources
-vim.o.completeopt     = 'menuone,noselect,fuzzy,nosort' -- Use custom behavior
+vim.o.completeopt     = 'menuone,noinsert,fuzzy,nosort' -- Select first without inserting
 vim.o.completetimeout = 100                             -- Limit sources delay
 
 -- Autocommands ===============================================================

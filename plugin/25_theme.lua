@@ -7,10 +7,18 @@ Config.now(function()
     on_highlights = function(highlights, colors)
       local black = '#000000'
       local statusline = '#111111'
+      local completion_selection = '#3a3a3a'
 
       highlights.Normal = { fg = colors.fg_main, bg = black }
       highlights.NormalFloat = { fg = colors.fg_main, bg = black }
       highlights.NormalNC = { fg = colors.fg_main, bg = black }
+      highlights.Pmenu = { fg = colors.fg_main, bg = black }
+      highlights.PmenuSel = { fg = '#ffffff', bg = completion_selection }
+      highlights.PmenuKindSel = { fg = '#ffffff', bg = completion_selection }
+      highlights.PmenuExtraSel = { fg = '#ffffff', bg = completion_selection }
+      highlights.PmenuMatchSel = { fg = '#ffffff', bg = completion_selection, bold = true }
+      highlights.PmenuSbar = { bg = black }
+      highlights.PmenuThumb = { bg = colors.fg_dim }
       highlights.LineNr = { fg = colors.fg_dim, bg = black }
       highlights.CursorLineNr = { fg = '#feacd0', bg = black, bold = true }
       highlights.SignColumn = { bg = black }

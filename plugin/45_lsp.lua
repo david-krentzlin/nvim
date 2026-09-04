@@ -25,6 +25,7 @@ now_if_args(function()
   })
 
   vim.lsp.enable({
+    'lua_ls',
     'ruby_lsp',
     'gopls',
     'helm_ls',
@@ -114,7 +115,6 @@ now_if_args(function()
     map('n', '<Leader>h', vim.lsp.buf.references, 'References')
     map('n', '<Leader>k', vim.lsp.buf.hover, 'Hover')
     map('n', '<Leader>r', vim.lsp.buf.rename, 'Rename')
-    map('n', '<Leader>s', vim.lsp.buf.document_symbol, 'Document symbols')
     map('n', '<Leader>S', function()
       vim.ui.input({ prompt = 'Workspace symbols: ' }, function(query)
         if query and query ~= '' then vim.lsp.buf.workspace_symbol(query) end

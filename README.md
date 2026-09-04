@@ -34,14 +34,15 @@ Space keys follow Helix where Neovim has an equivalent:
 | `<Space>f` / `<Space>F` | Files at root / current directory |
 | `<Space>e` / `<Space>.` / `-` | Oil root / file directory / parent directory |
 | `<Space>b` / `<Space>j` / `<Space>g` | Buffers / jumplist / changed files |
-| `<Space>o` | Toggle Aerial outline |
+| `<Space>s` | Toggle Aerial outline |
 | `<Space>d` / `<Space>D` | Document / workspace diagnostics |
 | `<Space>a` / `<Space>r` / `<Space>h` / `<Space>k` | Code action / rename / references / hover |
-| `<Space>s` / `<Space>S` | Document / workspace symbols |
+| `<Space>S` | Workspace symbols |
 | `<Space>c` / `<Space>C` | Toggle current line or selected lines comments |
 | `<Space>p` / `<Space>P` / `<Space>y` / `<Space>Y` / `<Space>R` | Clipboard paste, yank, replace |
 | `<Space>/` / `<Space>?` / `<Space>*` | Workspace grep / commands / grep word |
-| `<Space>w` | Native window prefix |
+| `<Space>ww` / `<Space>wv` / `<Space>ws` | Next window / vertical split / horizontal split |
+| `<Space>whjkl` / `<Space>wq` / `<Space>wo` / `<Space>wHJKL` | Focus / close / only / move window |
 
 Match prefix: `mm` matching bracket; `ma<object>` and `mi<object>` select
 around or inside a Mini.ai textobject; `ms`, `mr`, `md` are Mini.surround;
@@ -60,6 +61,10 @@ Multiple cursors use `<Space>m`, never arrow keys:
 | `Esc` | Clear active cursors |
 
 Oil: edit entries, then `:write` to apply. `^` moves to parent; `q` closes.
+
+Completion opens automatically when candidates exist. Use `<Tab>` and
+`<S-Tab>` to select candidates, `<C-i>` or `<CR>` to accept, and `<C-e>` to
+cancel.
 
 ## Language servers
 
