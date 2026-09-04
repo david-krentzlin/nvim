@@ -13,6 +13,7 @@ assert(vim.o.guicursor:find("v%-ve%-r%-cr%-o:hor20"))
 assert(vim.api.nvim_get_hl(0, { name = 'Pmenu', link = false }).bg == 0)
 assert(vim.api.nvim_get_hl(0, { name = 'PmenuSel', link = false }).fg == 0xffffff)
 assert(vim.api.nvim_get_hl(0, { name = 'PmenuSel', link = false }).bg == 0x3a3a3a)
+assert(MiniCompletion.config.delay.info == 2000)
 
 local function with_buffer(name, options, lines, f)
 	local bufnr = vim.api.nvim_create_buf(true, false)

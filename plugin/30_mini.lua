@@ -148,6 +148,7 @@ now_if_args(function()
     return MiniCompletion.default_process_items(items, base, process_items_opts)
   end
   require('mini.completion').setup({
+    delay = { info = 2000 },
     lsp_completion = {
       auto_setup = true,
       process_items = process_items,
