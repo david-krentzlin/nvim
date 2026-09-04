@@ -17,8 +17,10 @@ Config.now(function()
       highlights.PmenuKindSel = { fg = '#ffffff', bg = completion_selection }
       highlights.PmenuExtraSel = { fg = '#ffffff', bg = completion_selection }
       highlights.PmenuMatchSel = { fg = '#ffffff', bg = completion_selection, bold = true }
-      highlights.PmenuSbar = { bg = black }
       highlights.PmenuThumb = { bg = colors.fg_dim }
+      highlights.PmenuKind = { fg = colors.fg_main, bg = black }
+      highlights.PmenuExtra = { fg = colors.fg_main, bg = black }
+      highlights.PmenuSbar = { bg = black }
       highlights.LineNr = { fg = colors.fg_dim, bg = black }
       highlights.CursorLineNr = { fg = '#feacd0', bg = black, bold = true }
       highlights.SignColumn = { bg = black }

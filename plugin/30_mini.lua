@@ -111,10 +111,6 @@ now(function() require('mini.starter').setup() end)
 --   configure a custom statusline by setting `config.content.active` function.
 now(function() require('mini.statusline').setup() end)
 
--- Tabline. Sets `:h 'tabline'` to show all listed buffers in a line at the top.
--- Buffers are ordered as they were created. Navigate with `[b` and `]b`.
-now(function() require('mini.tabline').setup() end)
-
 -- Step one or two ============================================================
 -- Load now if Neovim is started like `nvim -- path/to/file`, otherwise - later.
 -- This ensures a correct behavior for files opened during startup.
@@ -228,7 +224,13 @@ later(function()
       -- For more complicated textobjects that require structural awareness,
       -- use tree-sitter. This example makes `aF`/`iF` mean around/inside function
       -- definition (not call). See `:h MiniAi.gen_spec.treesitter()` for details.
+      C = ai.gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }),
       F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
+      K = ai.gen_spec.treesitter({ a = '@block.outer', i = '@block.inner' }),
+      L = ai.gen_spec.treesitter({ a = '@loop.outer', i = '@loop.inner' }),
+      O = ai.gen_spec.treesitter({ a = '@conditional.outer', i = '@conditional.inner' }),
+      P = ai.gen_spec.treesitter({ a = '@parameter.outer', i = '@parameter.inner' }),
+      X = ai.gen_spec.treesitter({ a = '@comment.outer', i = '@comment.inner' }),
     },
 
     -- 'mini.ai' by default mostly mimics built-in search behavior: first try
@@ -306,6 +308,7 @@ later(function()
     clues = {
       -- This is defined in 'plugin/20_keymaps.lua' with Leader group descriptions
       Config.leader_group_clues,
+      Config.mini_ai_clues,
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
@@ -328,6 +331,9 @@ later(function()
       { mode = { 'n', 'x' }, keys = ']' },
       { mode =   'i',        keys = '<C-x>' },    -- Built-in completion
       { mode = { 'n', 'x' }, keys = 'g' },        -- `g` key
+      { mode =   'n',        keys = 'm' },        -- Match, surround, and Git mappings
+      { mode = { 'o', 'x' }, keys = 'a' },        -- Around textobjects
+      { mode = { 'o', 'x' }, keys = 'i' },        -- Inside textobjects
       { mode = { 'n', 'x' }, keys = "'" },        -- Marks
       { mode = { 'n', 'x' }, keys = '`' },
       { mode = { 'n', 'x' }, keys = '"' },        -- Registers
@@ -438,7 +444,7 @@ later(function()
 end)
 
 -- Visualize and work with indent scope. It visualizes indent scope "at cursor"
--- with animated vertical line. Provides relevant motions and textobjects.
+-- with a vertical line. Provides relevant motions and textobjects.
 -- Example usage:
 -- - `cii` - *c*hange *i*nside *i*ndent scope
 -- - `Vaiai` - *V*isually select *a*round *i*ndent scope and then again
@@ -447,7 +453,10 @@ end)
 --
 -- See also:
 -- - `:h MiniIndentscope.gen_animation` - available animation rules
-later(function() require('mini.indentscope').setup() end)
+later(function()
+  local indentscope = require('mini.indentscope')
+  indentscope.setup({ symbol = '│', draw = { animation = indentscope.gen_animation.none() } })
+end)
 
 -- Customizable user input. Improves how Neovim and plugins ask for input.
 -- By default shows a floating window with the input prompt as title. Window

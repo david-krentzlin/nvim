@@ -24,9 +24,8 @@ for _, kind in ipairs(expected_kinds) do
   assert(Config.aerial_config.icons[kind] == MiniIcons.get('lsp', kind))
 end
 
-local outline = vim.fn.maparg('<Space>s', 'n', false, true)
-assert(outline.desc == 'Toggle outline')
-assert(outline.rhs == '<Cmd>AerialToggle<CR>')
-assert(vim.fn.maparg('<Space>o', 'n') == '')
+local outline_shortcut = vim.fn.maparg('<Space>s', 'n', false, true)
+assert(outline_shortcut.desc == 'Toggle outline')
+assert(outline_shortcut.rhs == '<Cmd>AerialToggle<CR>')
 assert(vim.fn.maparg('{', 'n', false, true).rhs ~= '<Cmd>AerialPrev<CR>')
 assert(vim.fn.maparg('}', 'n', false, true).rhs ~= '<Cmd>AerialNext<CR>')

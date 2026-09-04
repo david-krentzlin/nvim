@@ -34,7 +34,7 @@ vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit ShaDa file (for startup)
 vim.o.breakindent    = true       -- Indent wrapped lines to match line start
 vim.o.breakindentopt = 'list:-1'  -- Add padding for lists (if 'wrap' is set)
 vim.o.colorcolumn    = '+1'       -- Draw column on the right of maximum width
-vim.o.cursorline     = false      -- Keep current line unhighlighted
+vim.o.cursorline     = false      -- Don't highlight the current line
 vim.o.guicursor      = 'n-c:block,i-ci:ver25,v-ve-r-cr-o:hor20'
 vim.o.linebreak      = true       -- Wrap lines at 'breakat' (if 'wrap' is set)
 vim.o.list           = true       -- Show helpful text indicators
@@ -57,7 +57,7 @@ vim.o.relativenumber  = true                      -- Show relative line numbers
 
 -- Special UI symbols. More is set via 'mini.basics' later.
 vim.o.fillchars = 'eob: ,fold:╌'
-vim.o.listchars = 'extends:…,nbsp:␣,precedes:…,tab:> '
+vim.o.listchars = 'extends:…,nbsp:␣,precedes:…,tab:  '
 
 -- Folds (see `:h fold-commands`, `:h zM`, `:h zR`, `:h zA`, `:h zj`)
 vim.o.foldlevel   = 10       -- Fold nothing by default; set to 0 or 1 to fold

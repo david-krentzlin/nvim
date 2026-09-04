@@ -19,10 +19,8 @@ end
 nmap('[p', '<Cmd>exe "iput! " . v:register<CR>', 'Paste Above')
 nmap(']p', '<Cmd>exe "iput "  . v:register<CR>', 'Paste Below')
 
--- Helix-style match prefix. Keep built-in `a`/`i` textobjects intact.
+-- Match and Git hunk mappings. Textobjects use Neovim's native `a`/`i` grammar.
 nmap('mm', '%', 'Matching bracket')
-vim.keymap.set('n', 'ma', 'va', { remap = true, desc = 'Around textobject' })
-vim.keymap.set('n', 'mi', 'vi', { remap = true, desc = 'Inside textobject' })
 local select_git_hunk = function()
   local ok = pcall(MiniDiff.textobject)
   if not ok then vim.notify('No Git hunk under cursor', vim.log.levels.INFO) end
@@ -52,6 +50,51 @@ Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>m', desc = '+Cursors' },
   { mode = 'x', keys = '<Leader>m', desc = '+Cursors' },
   { mode = 'n', keys = '<Leader>w', desc = '+Windows' },
+}
+
+Config.mini_ai_clues = {
+  { mode = { 'o', 'x' }, keys = 'a(', desc = 'Around parentheses' },
+  { mode = { 'o', 'x' }, keys = 'a[', desc = 'Around brackets' },
+  { mode = { 'o', 'x' }, keys = 'a{', desc = 'Around braces' },
+  { mode = { 'o', 'x' }, keys = 'a<', desc = 'Around angle brackets' },
+  { mode = { 'o', 'x' }, keys = 'ab', desc = 'Around any bracket pair' },
+  { mode = { 'o', 'x' }, keys = 'a"', desc = 'Around double quotes' },
+  { mode = { 'o', 'x' }, keys = "a'", desc = 'Around single quotes' },
+  { mode = { 'o', 'x' }, keys = 'a`', desc = 'Around backticks' },
+  { mode = { 'o', 'x' }, keys = 'aq', desc = 'Around any quote' },
+  { mode = { 'o', 'x' }, keys = 'aa', desc = 'Around argument' },
+  { mode = { 'o', 'x' }, keys = 'af', desc = 'Around function call' },
+  { mode = { 'o', 'x' }, keys = 'at', desc = 'Around tag' },
+  { mode = { 'o', 'x' }, keys = 'aB', desc = 'Around buffer' },
+  { mode = { 'o', 'x' }, keys = 'aC', desc = 'Around class' },
+  { mode = { 'o', 'x' }, keys = 'aF', desc = 'Around function definition' },
+  { mode = { 'o', 'x' }, keys = 'aK', desc = 'Around block' },
+  { mode = { 'o', 'x' }, keys = 'aL', desc = 'Around loop' },
+  { mode = { 'o', 'x' }, keys = 'aO', desc = 'Around conditional' },
+  { mode = { 'o', 'x' }, keys = 'aP', desc = 'Around parameter' },
+  { mode = { 'o', 'x' }, keys = 'aX', desc = 'Around comment' },
+  { mode = { 'o', 'x' }, keys = 'a?', desc = 'Around prompted textobject' },
+  { mode = { 'o', 'x' }, keys = 'i(', desc = 'Inside parentheses' },
+  { mode = { 'o', 'x' }, keys = 'i[', desc = 'Inside brackets' },
+  { mode = { 'o', 'x' }, keys = 'i{', desc = 'Inside braces' },
+  { mode = { 'o', 'x' }, keys = 'i<', desc = 'Inside angle brackets' },
+  { mode = { 'o', 'x' }, keys = 'ib', desc = 'Inside any bracket pair' },
+  { mode = { 'o', 'x' }, keys = 'i"', desc = 'Inside double quotes' },
+  { mode = { 'o', 'x' }, keys = "i'", desc = 'Inside single quotes' },
+  { mode = { 'o', 'x' }, keys = 'i`', desc = 'Inside backticks' },
+  { mode = { 'o', 'x' }, keys = 'iq', desc = 'Inside any quote' },
+  { mode = { 'o', 'x' }, keys = 'ia', desc = 'Inside argument' },
+  { mode = { 'o', 'x' }, keys = 'if', desc = 'Inside function call' },
+  { mode = { 'o', 'x' }, keys = 'it', desc = 'Inside tag' },
+  { mode = { 'o', 'x' }, keys = 'iB', desc = 'Inside buffer' },
+  { mode = { 'o', 'x' }, keys = 'iC', desc = 'Inside class' },
+  { mode = { 'o', 'x' }, keys = 'iF', desc = 'Inside function definition' },
+  { mode = { 'o', 'x' }, keys = 'iK', desc = 'Inside block' },
+  { mode = { 'o', 'x' }, keys = 'iL', desc = 'Inside loop' },
+  { mode = { 'o', 'x' }, keys = 'iO', desc = 'Inside conditional' },
+  { mode = { 'o', 'x' }, keys = 'iP', desc = 'Inside parameter' },
+  { mode = { 'o', 'x' }, keys = 'iX', desc = 'Inside comment' },
+  { mode = { 'o', 'x' }, keys = 'i?', desc = 'Inside prompted textobject' },
 }
 
 local nmap_leader = function(key, rhs, desc)
