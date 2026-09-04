@@ -21,6 +21,7 @@ nmap(']p', '<Cmd>exe "iput "  . v:register<CR>', 'Paste Below')
 
 -- Match and Git hunk mappings. Textobjects use Neovim's native `a`/`i` grammar.
 nmap('mm', '%', 'Matching bracket')
+nmap('gw', function() MiniJump2d.start(MiniJump2d.builtin_opts.word_start) end, 'Jump to word')
 local select_git_hunk = function()
   local ok = pcall(MiniDiff.textobject)
   if not ok then vim.notify('No Git hunk under cursor', vim.log.levels.INFO) end

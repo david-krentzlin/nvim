@@ -218,6 +218,7 @@ later(function() require('mini.extra').setup() end)
 later(function()
   local ai = require('mini.ai')
   ai.setup({
+    n_lines = 200,
     -- 'mini.ai' can be extended with custom textobjects
     custom_textobjects = {
       -- Make `aB` / `iB` act on around/inside whole *b*uffer

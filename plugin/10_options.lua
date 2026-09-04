@@ -138,7 +138,7 @@ Config.new_autocmd('BufWritePre', nil, function(ev) Config.trim_trailing_whitesp
 -- See `:h vim.diagnostic` and `:h vim.diagnostic.config()`.
 local diagnostic_opts = {
   -- Show signs on top of any other sign, but only for warnings and errors
-  signs = { priority = 9999, severity = { min = 'WARN', max = 'ERROR' } },
+  signs = { text = { ERROR = '●', WARN = '●' }, priority = 9999, severity = { min = 'WARN', max = 'ERROR' } },
 
   -- Show all diagnostics as underline (for their messages type `<Leader>ld`)
   underline = { severity = { min = 'HINT', max = 'ERROR' } },

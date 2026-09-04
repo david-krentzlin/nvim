@@ -1,4 +1,11 @@
 return {
+  capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = { snippetSupport = false },
+      },
+    },
+  },
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   settings = {
     gopls = {
