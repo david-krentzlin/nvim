@@ -83,7 +83,7 @@ server supports it.
 | Rust | `rust-analyzer` | |
 | Bash | `bash-language-server` | |
 | HTML | `vscode-html-language-server` | |
-| Elixir | `elixir-ls` | First execution may install server files; allow its cache directory to be writable. |
+| Elixir | `expert` | Install with `mise use expert` or `brew install expert`. |
 
 Helm templates work in arbitrary names below a chart's `templates/` directory,
 including `*.gotmpl`; presence of an ancestor `Chart.yaml` decides Helm mode.
@@ -97,8 +97,8 @@ Outside a chart, `*.gotmpl` uses `gopls`.
   `:echo executable('gopls')` (replace name).
 - Ruby shim error: configure a Ruby and `ruby-lsp` version in mise, or use the
   project's Bundler executable. `ruby-lsp --version` must print a version.
-- Elixir first-run error: run `elixir-ls` once in a writable environment to
-  complete its installation, then restart Neovim.
+- Missing Expert: install it with `mise use expert` or `brew install expert`,
+  then restart Neovim.
 - Wrong Helm behavior: confirm file is below a directory with ancestor
   `Chart.yaml`; inspect `:set filetype?`.
 - Tree-sitter error: run `:checkhealth vim.treesitter nvim-treesitter`, then

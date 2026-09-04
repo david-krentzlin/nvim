@@ -36,7 +36,7 @@ now_if_args(function()
     'rust_analyzer',
     'bashls',
     'html',
-    'elixirls',
+    'expert',
   })
 
   local metals_group = vim.api.nvim_create_augroup('nvim-metals', { clear = true })
@@ -61,7 +61,7 @@ end)
 
 Config.lsp_format_client = {
   bash = 'bashls',
-  elixir = 'elixirls',
+  elixir = 'expert',
   go = 'gopls',
   json = 'jsonls',
   ruby = 'ruby_lsp',

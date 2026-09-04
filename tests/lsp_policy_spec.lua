@@ -58,7 +58,8 @@ assert(vim.lsp.is_enabled('scls'))
 assert(vim.lsp.is_enabled('rust_analyzer'))
 assert(vim.lsp.is_enabled('bashls'))
 assert(vim.lsp.is_enabled('html'))
-assert(vim.lsp.is_enabled('elixirls'))
+assert(vim.lsp.is_enabled('expert'))
+assert(not vim.lsp.is_enabled('elixirls'))
 assert(not vim.lsp.is_enabled('metals'))
 
 local zk = vim.lsp.config.zk
@@ -82,8 +83,8 @@ assert(not scls.settings.feature_citations)
 assert(vim.deep_equal(vim.lsp.config.rust_analyzer.filetypes, { 'rust' }))
 assert(vim.tbl_contains(vim.lsp.config.bashls.filetypes, 'bash'))
 assert(vim.deep_equal(vim.lsp.config.html.filetypes, { 'html' }))
-assert(vim.tbl_contains(vim.lsp.config.elixirls.filetypes, 'elixir'))
-assert(vim.deep_equal(vim.lsp.config.elixirls.cmd, { 'elixir-ls' }))
+assert(vim.tbl_contains(vim.lsp.config.expert.filetypes, 'elixir'))
+assert(vim.deep_equal(vim.lsp.config.expert.cmd, { 'expert', '--stdio' }))
 assert(vim.tbl_contains(vim.lsp.config.gopls.filetypes, 'gotmpl'))
 assert(not vim.lsp.config.gopls.capabilities.textDocument.completion.completionItem.snippetSupport)
 assert(vim.deep_equal(vim.lsp.config.helm_ls.filetypes, { 'helm' }))
@@ -93,7 +94,7 @@ assert(vim.deep_equal(vim.lsp.config.ruby_lsp.cmd, { 'ruby-lsp' }))
 assert(vim.deep_equal(vim.lsp.config.ruby_lsp.root_markers, { 'Gemfile', '.git' }))
 assert(vim.fs.root(root .. '/ruby/lib/example.rb', vim.lsp.config.ruby_lsp.root_markers) == root .. '/ruby')
 
-for _, case in ipairs({ { 'bash', 'bashls' }, { 'rust', 'rust_analyzer' }, { 'elixir', 'elixirls' } }) do
+for _, case in ipairs({ { 'bash', 'bashls' }, { 'rust', 'rust_analyzer' }, { 'elixir', 'expert' } }) do
   assert(Config.lsp_format_client[case[1]] == case[2])
 end
 
