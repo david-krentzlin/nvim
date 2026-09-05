@@ -12,6 +12,40 @@
 local add = vim.pack.add
 local now_if_args, later = Config.now_if_args, Config.later
 
+-- Completion ================================================================
+
+now_if_args(function()
+  add({ {
+    src = 'https://github.com/Saghen/blink.cmp',
+    version = vim.version.range('1.*'),
+  } })
+
+  local ok, blink = pcall(require, 'blink.cmp')
+  if not ok then return end
+
+  blink.setup({
+    keymap = {
+      ['<C-y>'] = { 'select_and_accept' },
+      ['<C-n>'] = {
+        function(cmp) return cmp.select_next({ on_ghost_text = true, auto_insert = false }) end,
+        'fallback_to_mappings',
+      },
+      ['<C-p>'] = {
+        function(cmp) return cmp.select_prev({ on_ghost_text = true, auto_insert = false }) end,
+        'fallback_to_mappings',
+      },
+    },
+    completion = {
+      list = { selection = { preselect = true, auto_insert = false } },
+      ghost_text = { enabled = true, show_with_menu = false },
+      menu = { auto_show = false },
+    },
+    sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
+  })
+
+  vim.lsp.config('*', { capabilities = blink.get_lsp_capabilities() })
+end)
+
 -- File explorer ==============================================================
 
 Config.now(function()
