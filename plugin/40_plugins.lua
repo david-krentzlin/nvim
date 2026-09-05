@@ -24,19 +24,7 @@ now_if_args(function()
   if not ok then return end
 
   blink.setup({
-    keymap = {
-      ['<C-y>'] = { 'select_and_accept' },
-      ['<C-n>'] = {
-        function(cmp) return cmp.select_next({ on_ghost_text = true, auto_insert = false }) end,
-        'fallback_to_mappings',
-      },
-      ['<C-p>'] = {
-        function(cmp) return cmp.select_prev({ on_ghost_text = true, auto_insert = false }) end,
-        'fallback_to_mappings',
-      },
-    },
     completion = {
-      list = { selection = { preselect = true, auto_insert = false } },
       ghost_text = { enabled = true, show_with_menu = false },
       menu = { auto_show = false },
     },

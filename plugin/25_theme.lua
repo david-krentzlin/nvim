@@ -37,5 +37,27 @@ Config.now(function()
     end,
   })
 
-  vim.cmd.colorscheme('modus')
+  local ok, kanagawa = pcall(require, 'kanagawa')
+  if not ok then return end
+
+  kanagawa.setup({
+    theme = 'dragon',
+    colors = {
+      theme = {
+        dragon = {
+          ui = {
+            bg = '#000000',
+            bg_dim = '#000000',
+            bg_m3 = '#000000',
+            bg_m2 = '#000000',
+            bg_m1 = '#000000',
+            bg_gutter = '#000000',
+            float = { bg = '#000000', bg_border = '#000000' },
+            pmenu = { bg = '#000000', bg_sbar = '#000000' },
+          },
+        },
+      },
+    },
+  })
+  vim.cmd.colorscheme('kanagawa-dragon')
 end)
