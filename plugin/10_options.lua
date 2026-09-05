@@ -24,7 +24,8 @@ vim.g.mapleader = ' ' -- Use `<Space>` as <Leader> key
 
 vim.o.mouse       = 'a'            -- Enable mouse
 vim.o.mousescroll = 'ver:25,hor:6' -- Customize mouse scroll
-vim.o.clipboard   = 'unnamedplus'  -- Use macOS system clipboard
+vim.g.clipboard   = 'osc52'        -- Use terminal clipboard via OSC 52
+vim.o.clipboard   = 'unnamedplus'  -- Use system clipboard by default
 vim.o.switchbuf   = 'usetab'       -- Use already opened buffers when switching
 vim.o.undofile    = true           -- Enable persistent undo
 

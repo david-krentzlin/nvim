@@ -47,7 +47,7 @@ Config.now(function()
         dragon = {
           ui = {
             bg = '#000000',
-            bg_dim = '#000000',
+            bg_dim = '#111111',
             bg_m3 = '#000000',
             bg_m2 = '#000000',
             bg_m1 = '#000000',
