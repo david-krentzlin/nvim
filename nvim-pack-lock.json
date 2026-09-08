@@ -57,6 +57,15 @@
     "oil.nvim": {
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "overseer.nvim": {
+      "rev": "95b1099c043e4231a1204abd9a394d379e69f029",
+      "src": "https://github.com/stevearc/overseer.nvim",
+      "version": "2.0.0 - 3.0.0"
+    },
+    "quicker.nvim": {
+      "rev": "4a6883cb13fe097a20a046eb55f6dffd239276e3",
+      "src": "https://github.com/stevearc/quicker.nvim"
     }
   }
 }

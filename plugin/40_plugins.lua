@@ -36,7 +36,7 @@ end)
 
 -- File explorer ==============================================================
 
-Config.now(function()
+later(function()
   add({ 'https://github.com/stevearc/oil.nvim' })
 
   require('oil').setup({
@@ -56,7 +56,7 @@ end)
 
 -- Code outline ==============================================================
 
-Config.now(function()
+Config.later(function()
   add({ 'https://github.com/stevearc/aerial.nvim' })
 
   Config.aerial_kinds = {
@@ -95,6 +95,30 @@ Config.now(function()
   require('aerial').setup(Config.aerial_config)
 end)
 
+-- Run commands ===============================================================
+
+later(function()
+  add({ {
+    src = 'https://github.com/stevearc/overseer.nvim',
+    version = vim.version.range('2.*'),
+  } })
+
+  require('overseer').setup()
+  vim.keymap.set('n', '<Leader>$$', '<Cmd>OverseerRun<CR>', { desc = 'Run Overseer task' })
+  vim.keymap.set('n', '<Leader>$t', '<Cmd>OverseerToggle<CR>', { desc = 'Toggle Overseer' })
+end)
+
+-- Run qfl on steroids =======================================================
+
+later(function()
+  add({ 'https://github.com/stevearc/quicker.nvim' })
+
+  require('quicker').setup()
+  vim.keymap.set('n', '<Leader>q', function() require('quicker').toggle() end, { desc = 'Toggle quickfix' })
+  vim.keymap.set('n', '<A-n>', '<Cmd>cnext<CR>', { desc = 'Next quickfix item' })
+  vim.keymap.set('n', '<A-p>', '<Cmd>cprevious<CR>', { desc = 'Previous quickfix item' })
+end)
+
 -- Multiple cursors ===========================================================
 
 Config.now(function()
@@ -103,16 +127,12 @@ Config.now(function()
   local mc = require('multicursor-nvim')
   mc.setup()
 
-  -- `multicursor.nvim` adds Insert-mode Left/Right mappings when they are not
-  -- already mapped. Keep arrow keys fully unmapped for this configuration.
-  vim.keymap.del('i', '<Left>')
-  vim.keymap.del('i', '<Right>')
-
   local modes = { 'n', 'x' }
   local set = function(lhs, rhs, desc)
     vim.keymap.set(modes, '<Leader>m' .. lhs, rhs, { desc = desc })
   end
 
+  set('o', mc.addCursorOperator, 'Cursor Operator')
   set('j', function() mc.lineAddCursor(1) end, 'Cursor below')
   set('k', function() mc.lineAddCursor(-1) end, 'Cursor above')
   set('n', function() mc.matchAddCursor(1) end, 'Next match')
@@ -123,10 +143,22 @@ Config.now(function()
   set('c', mc.clearCursors, 'Clear cursors')
 
   mc.addKeymapLayer(function(layer_set)
-    layer_set(modes, '<Leader>mh', mc.prevCursor, { desc = 'Previous cursor' })
-    layer_set(modes, '<Leader>ml', mc.nextCursor, { desc = 'Next cursor' })
-    layer_set(modes, '<Leader>md', mc.deleteCursor, { desc = 'Delete cursor' })
-    layer_set('n', '<Esc>', mc.clearCursors, { desc = 'Clear cursors' })
+    layer_set(modes, '<C-p>', mc.prevCursor, { desc = 'Previous cursor' })
+    layer_set(modes, '<C-n>', mc.nextCursor, { desc = 'Next cursor' })
+
+    layer_set(modes, '<A-p>', function() mc.matchAddCursor(-1) end, { desc = "Previous match"})
+    layer_set(modes, '<C-,>', function() mc.matchSkipCursor(1) end, { desc = "Skip next match" })
+    layer_set(modes, '<A-n>', function() mc.matchAddCursor(1) end, { desc = 'Next match' })
+    layer_set(modes, '<C-,>', function() mc.matchSkipCursor(-1) end, { desc = "Skip prev match" })
+
+    layer_set(modes, '<C-c>', mc.deleteCursor, { desc = 'Delete cursor' })
+    layer_set("n", "<esc>", function()
+                if not mc.cursorsEnabled() then
+                    mc.enableCursors()
+                else
+                    mc.clearCursors()
+                end
+            end)
   end)
 end)
 

@@ -85,6 +85,8 @@ Config.lsp_references = function()
   require('mini.extra').pickers.lsp({ scope = 'references' })
 end
 
+vim.keymap.set('n', 'gr', Config.lsp_references, { desc = 'References' })
+
 Config.enable_gopls_inlay_hints = function(client, bufnr)
   if client.name ~= 'gopls' or not client:supports_method('textDocument/inlayHint') then
     return false
@@ -112,7 +114,6 @@ now_if_args(function()
     map('n', 'gD', vim.lsp.buf.declaration, 'Declaration')
     map('n', 'gT', vim.lsp.buf.type_definition, 'Type definition')
     map('n', 'gi', vim.lsp.buf.implementation, 'Implementation')
-    map('n', 'gr', Config.lsp_references, 'References')
     map('n', 'K', vim.lsp.buf.hover, 'Hover')
     map('n', 'gK', vim.lsp.buf.signature_help, 'Signature help')
     map('n', '<Leader>a', vim.lsp.buf.code_action, 'Code action')
