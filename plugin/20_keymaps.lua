@@ -46,9 +46,10 @@ vim.keymap.set('x', 'mg', '<Cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Git
 -- Space mappings =============================================================
 
 -- Keep Space mode small and direct, matching the daily Helix contract. Groups
--- exist only where an action must have a second key: multicursors and windows.
+-- exist only where an action must have a second key.
 Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>m', desc = '+Cursors' },
+  { mode = 'n', keys = '<Leader>$', desc = '+Run commands' },
   { mode = 'x', keys = '<Leader>m', desc = '+Cursors' },
   { mode = 'n', keys = '<Leader>w', desc = '+Windows' },
 }

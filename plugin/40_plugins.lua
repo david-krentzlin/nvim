@@ -104,7 +104,30 @@ later(function()
   } })
 
   require('overseer').setup()
+  vim.api.nvim_create_user_command('OverseerRestartLast', function()
+    local overseer = require('overseer')
+    local task_list = require('overseer.task_list')
+    local tasks = overseer.list_tasks({
+      status = {
+        overseer.STATUS.SUCCESS,
+        overseer.STATUS.FAILURE,
+        overseer.STATUS.CANCELED,
+      },
+      sort = task_list.sort_finished_recently,
+    })
+
+    if vim.tbl_isempty(tasks) then
+      vim.notify('No completed Overseer task to restart', vim.log.levels.WARN)
+      return
+    end
+
+    overseer.run_action(tasks[1], 'restart')
+  end, { desc = 'Restart most recent Overseer task' })
+
+  vim.cmd.cnoreabbrev('OS OverseerShell')
   vim.keymap.set('n', '<Leader>$$', '<Cmd>OverseerRun<CR>', { desc = 'Run Overseer task' })
+  vim.keymap.set('n', '<Leader>$r', '<Cmd>OverseerRestartLast<CR>', { desc = 'Restart last Overseer task' })
+  vim.keymap.set('n', '<Leader>$s', ':OverseerShell ', { desc = 'Run shell command with Overseer' })
   vim.keymap.set('n', '<Leader>$t', '<Cmd>OverseerToggle<CR>', { desc = 'Toggle Overseer' })
 end)
 
