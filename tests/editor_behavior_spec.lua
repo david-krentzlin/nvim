@@ -1,4 +1,4 @@
-assert(vim.o.clipboard == "unnamedplus")
+assert(vim.o.clipboard == '')
 assert(vim.o.termguicolors)
 assert(vim.o.relativenumber)
 assert(not vim.o.cursorline)

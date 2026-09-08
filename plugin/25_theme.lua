@@ -1,4 +1,4 @@
--- Modus Vivendi with the black surfaces used by the daily Helix configuration.
+-- Kanagawa Dragon with the black surfaces used by the daily Helix configuration.
 Config.now(function()
   require('modus-themes').setup({
     style = 'modus_vivendi',
@@ -36,5 +36,27 @@ Config.now(function()
       highlights.AerialGuide = { fg = colors.fg_dim, bg = black }
     end,
   })
-  vim.cmd.colorscheme('modus_vivendi')
+  local ok, kanagawa = pcall(require, 'kanagawa')
+  if not ok then return end
+
+  kanagawa.setup({
+    theme = 'dragon',
+    colors = {
+      theme = {
+        dragon = {
+          ui = {
+            bg = '#000000',
+            bg_dim = '#111111',
+            bg_m3 = '#000000',
+            bg_m2 = '#000000',
+            bg_m1 = '#000000',
+            bg_gutter = '#000000',
+            float = { bg = '#000000', bg_border = '#000000' },
+            pmenu = { bg = '#000000', bg_sbar = '#000000' },
+          },
+        },
+      },
+    },
+  })
+  vim.cmd.colorscheme('kanagawa-dragon')
 end)

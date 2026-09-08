@@ -100,6 +100,7 @@ end
 vim.pack.add({
   'https://github.com/nvim-mini/mini.nvim',
   'https://github.com/miikanissi/modus-themes.nvim',
+  'https://github.com/rebelot/kanagawa.nvim',
 })
 
 -- Loading helpers used to organize config into fail-safe parts. Example usage:
