@@ -8,6 +8,11 @@ local run_commands_clue = vim.tbl_filter(function(clue)
 end, Config.leader_group_clues)
 assert(#run_commands_clue == 1)
 
+local tests_clue = vim.tbl_filter(function(clue)
+  return clue.mode == 'n' and clue.keys == '<LocalLeader>t' and clue.desc == '+Tests'
+end, Config.leader_group_clues)
+assert(#tests_clue == 1)
+
 local original_start = MiniJump2d.start
 local options
 MiniJump2d.start = function(opts) options = opts end

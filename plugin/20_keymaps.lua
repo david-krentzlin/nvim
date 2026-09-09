@@ -50,6 +50,7 @@ vim.keymap.set('x', 'mg', '<Cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Git
 Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>m', desc = '+Cursors' },
   { mode = 'n', keys = '<Leader>$', desc = '+Run commands' },
+  { mode = 'n', keys = '<LocalLeader>t', desc = '+Tests' },
   { mode = 'x', keys = '<Leader>m', desc = '+Cursors' },
   { mode = 'n', keys = '<Leader>w', desc = '+Windows' },
 }

@@ -138,6 +138,9 @@ later(function()
   vim.keymap.set('n', '<Leader>$r', '<Cmd>OverseerRestartLast<CR>', { desc = 'Restart last Overseer task' })
   vim.keymap.set('n', '<Leader>$s', ':OverseerShell ', { desc = 'Run shell command with Overseer' })
   vim.keymap.set('n', '<Leader>$t', '<Cmd>OverseerToggle<CR>', { desc = 'Toggle Overseer' })
+  vim.keymap.set('n', '<LocalLeader>tt', function()
+    require('overseer').run_template({ tags = { require('overseer').TAG.TEST }, first = false })
+  end, { desc = 'Run test task' })
 end)
 
 -- Run qfl on steroids =======================================================
