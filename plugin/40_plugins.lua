@@ -95,6 +95,15 @@ Config.later(function()
   require('aerial').setup(Config.aerial_config)
 end)
 
+-- Git interface ==============================================================
+
+later(function()
+  add({ 'https://github.com/NeogitOrg/neogit' })
+
+  require('neogit').setup()
+  vim.keymap.set('n', '<Leader>v', '<Cmd>Neogit<CR>', { desc = 'Open Neogit' })
+end)
+
 -- Run commands ===============================================================
 
 later(function()
@@ -140,6 +149,114 @@ later(function()
   vim.keymap.set('n', '<Leader>q', function() require('quicker').toggle() end, { desc = 'Toggle quickfix' })
   vim.keymap.set('n', '<A-n>', '<Cmd>cnext<CR>', { desc = 'Next quickfix item' })
   vim.keymap.set('n', '<A-p>', '<Cmd>cprevious<CR>', { desc = 'Previous quickfix item' })
+end)
+
+-- Statusline =================================================================
+
+later(function()
+  add({ 'https://github.com/nvim-lualine/lualine.nvim' })
+
+  -- Upstream `examples/evil_lualine.lua`, with status components provided by
+  -- the installed Overseer and Aerial plugins.
+  local lualine = require('lualine')
+  local highlight_color = function(group, attribute, fallback)
+    local value = vim.api.nvim_get_hl(0, { name = group, link = false })[attribute]
+    return value and string.format('#%06x', value) or fallback
+  end
+  local colors = {
+    -- Match the former MiniStatusline background from 'plugin/25_theme.lua'.
+    bg = '#111111',
+    fg = highlight_color('StatusLine', 'fg', '#ffffff'),
+    yellow = highlight_color('DiagnosticWarn', 'fg', '#ffff00'),
+    cyan = highlight_color('DiagnosticInfo', 'fg', '#00ffff'),
+    darkblue = highlight_color('DiffChange', 'bg', '#000080'),
+    green = highlight_color('String', 'fg', '#00ff00'),
+    orange = highlight_color('DiagnosticWarn', 'fg', '#ff8800'),
+    violet = highlight_color('Identifier', 'fg', '#aa88ff'),
+    magenta = highlight_color('Function', 'fg', '#ff00ff'),
+    blue = highlight_color('DiagnosticHint', 'fg', '#00aaff'),
+    red = highlight_color('DiagnosticError', 'fg', '#ff0000'),
+  }
+  local conditions = {
+    buffer_not_empty = function() return vim.fn.empty(vim.fn.expand('%:t')) ~= 1 end,
+    hide_in_width = function() return vim.fn.winwidth(0) > 80 end,
+  }
+  local config = {
+    options = {
+      component_separators = '',
+      section_separators = '',
+      theme = {
+        normal = { c = { fg = colors.fg, bg = colors.bg } },
+        inactive = { c = { fg = colors.fg, bg = colors.bg } },
+      },
+    },
+    sections = {
+      lualine_a = {}, lualine_b = {}, lualine_y = {}, lualine_z = {},
+      lualine_c = {}, lualine_x = {},
+    },
+    inactive_sections = {
+      lualine_a = {}, lualine_b = {}, lualine_y = {}, lualine_z = {},
+      lualine_c = {}, lualine_x = {},
+    },
+  }
+  local ins_left = function(component) table.insert(config.sections.lualine_c, component) end
+  local ins_right = function(component) table.insert(config.sections.lualine_x, component) end
+
+  ins_left({ function() return '▊' end, color = { fg = colors.blue }, padding = { left = 0, right = 1 } })
+  ins_left({
+    function() return '' end,
+    color = function()
+      local mode_color = {
+        n = colors.red, i = colors.green, v = colors.blue, ['\22'] = colors.blue,
+        V = colors.blue, c = colors.magenta, no = colors.red, s = colors.orange,
+        S = colors.orange, ['\19'] = colors.orange, ic = colors.yellow, R = colors.violet,
+        Rv = colors.violet, cv = colors.red, ce = colors.red, r = colors.cyan,
+        rm = colors.cyan, ['r?'] = colors.cyan, ['!'] = colors.red, t = colors.red,
+      }
+      return { fg = mode_color[vim.fn.mode()] }
+    end,
+    padding = { right = 1 },
+  })
+  ins_left({ 'filesize', cond = conditions.buffer_not_empty })
+  ins_left({ 'filename', cond = conditions.buffer_not_empty, color = { fg = colors.magenta, gui = 'bold' } })
+  ins_left({ 'location' })
+  ins_left({ 'progress', color = { fg = colors.fg, gui = 'bold' } })
+  ins_left({
+    'diagnostics',
+    sources = { 'nvim_diagnostic' },
+    symbols = { error = ' ', warn = ' ', info = ' ' },
+    diagnostics_color = {
+      error = { fg = colors.red }, warn = { fg = colors.yellow }, info = { fg = colors.cyan },
+    },
+  })
+  ins_left({ function() return '%=' end })
+  ins_left({
+    function()
+      local filetype = vim.bo.filetype
+      for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+        if not client.config.filetypes or vim.tbl_contains(client.config.filetypes, filetype) then
+          return client.name
+        end
+      end
+      return 'No Active Lsp'
+    end,
+    icon = ' LSP:', color = { fg = colors.fg, gui = 'bold' },
+  })
+  ins_right({ 'aerial' })
+  ins_right({ 'overseer' })
+  ins_right({ 'o:encoding', fmt = string.upper, cond = conditions.hide_in_width, color = { fg = colors.green, gui = 'bold' } })
+  ins_right({ 'fileformat', fmt = string.upper, icons_enabled = false, color = { fg = colors.green, gui = 'bold' } })
+  ins_right({ 'branch', icon = '', color = { fg = colors.violet, gui = 'bold' } })
+  ins_right({
+    'diff', cond = conditions.hide_in_width,
+    symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+    diff_color = {
+      added = { fg = colors.green }, modified = { fg = colors.orange }, removed = { fg = colors.red },
+    },
+  })
+  ins_right({ function() return '▊' end, color = { fg = colors.blue }, padding = { left = 1 } })
+
+  lualine.setup(config)
 end)
 
 -- Multiple cursors ===========================================================
