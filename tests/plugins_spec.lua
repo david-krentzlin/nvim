@@ -23,3 +23,6 @@ assert(config:find("vim.keymap.set%('n', '<Leader>%$r', '<Cmd>OverseerRestartLas
 assert(config:find("vim.keymap.set%('n', '<Leader>%$s', ':OverseerShell '"))
 assert(config:find("vim.keymap.set%('n', '<Leader>%$t', '<Cmd>OverseerToggle<CR>'"))
 assert(not config:find('OverseerTaskAction'))
+assert(config:find("https://github.com/julienvincent/nvim%-paredit"))
+assert(config:find("require%('nvim%-paredit'%)%.setup%(%{"))
+assert(config:find("filetypes = {%s*'lisp'%s*}"))

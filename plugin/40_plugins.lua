@@ -350,6 +350,7 @@ now_if_args(function()
     'markdown',
     'markdown_inline',
     'bash',
+    'commonlisp',
     'elixir',
     'go',
     'gotmpl',
@@ -386,6 +387,16 @@ now_if_args(function()
   end
   local ts_start = function(ev) Config.start_treesitter(ev.buf) end
   Config.new_autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
+end)
+
+-- Lisp structural editing ====================================================
+
+now_if_args(function()
+  add({ 'https://github.com/julienvincent/nvim-paredit' })
+
+  require('nvim-paredit').setup({
+    filetypes = { 'lisp' },
+  })
 end)
 
 -- Language servers ===========================================================

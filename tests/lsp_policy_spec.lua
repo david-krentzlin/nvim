@@ -25,6 +25,7 @@ assert(vim.deep_equal(Config.treesitter_languages, {
   'markdown',
   'markdown_inline',
   'bash',
+  'commonlisp',
   'elixir',
   'go',
   'gotmpl',
