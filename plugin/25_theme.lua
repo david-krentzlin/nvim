@@ -58,4 +58,20 @@ Config.now(function()
     },
   })
   vim.cmd.colorscheme('kanagawa-dragon')
+
+  -- Match error diagnostics to Kanagawa Dragon's muted red used for exceptions.
+  local diagnostic_error = '#c4746e'
+  for _, group in ipairs({
+    'DiagnosticError',
+    'DiagnosticFloatingError',
+    'DiagnosticSignError',
+    'DiagnosticVirtualLinesError',
+    'DiagnosticVirtualTextError',
+  }) do
+    vim.api.nvim_set_hl(0, group, { fg = diagnostic_error })
+  end
+  vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', {
+    sp = diagnostic_error,
+    undercurl = true,
+  })
 end)
