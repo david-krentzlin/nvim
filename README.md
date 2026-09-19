@@ -25,8 +25,6 @@ Rollback: restore a known-good `nvim-pack-lock.json`, restart, then run:
 Use `:checkhealth`, `:checkhealth vim.lsp`, and
 `:checkhealth vim.treesitter` after installation or an update.
 
-<<<<<<< HEAD
-=======
 ## Daily keys
 
 Space keys follow Helix where Neovim has an equivalent:
@@ -75,6 +73,8 @@ server supports it.
 | Ruby | `ruby-lsp` | `ruby-lsp --version` must succeed from project bundle or PATH; `rubyfmt` and `standardrb` only when project supplies them. |
 | Scala | `metals`, Java | Open sbt, Mill, or Scala CLI workspace. |
 | Go and standalone `*.gotmpl` | `gopls` | Go templates use `gotmpl` filetype. |
+| Zig | `zls` | Syntax and language-server support for `*.zig`. |
+| Odin | LLVM `lldb-dap` | Syntax and debugger support for `*.odin`. |
 | Helm charts | `helm_ls` | Chart templates get `helm` filetype, rooted at `Chart.yaml`. |
 | YAML | `yaml-language-server` | Plain YAML only; Helm does not attach `yamlls`. |
 | JSON | `vscode-json-language-server` | From `vscode-langservers-extracted`. |
@@ -84,6 +84,22 @@ server supports it.
 | Bash | `bash-language-server` | |
 | HTML | `vscode-html-language-server` | |
 | Elixir | `expert` | Install with `mise use expert` or `brew install expert`. |
+
+## Debugging
+
+Install debug adapters separately: LLVM's `lldb-dap` debugs compiled Zig and
+Odin executables; Delve's `dlv` debugs Go packages and tests. `nvim-dap`,
+inline virtual text, and `dap-view` are installed by this configuration.
+Metals uses its dedicated DAP integration for Scala.
+
+| Key | Action |
+| --- | --- |
+| `<LocalLeader>dv` | Toggle DAP view |
+| `<LocalLeader>db` / `<LocalLeader>dB` | Toggle / set conditional breakpoint |
+| `<LocalLeader>dc` | Start or continue debugging |
+| `<LocalLeader>dn` / `<LocalLeader>di` / `<LocalLeader>do` | Step over / into / out |
+| `<LocalLeader>dr` | Open debug REPL |
+| `<LocalLeader>dw` | Watch expression at cursor or selected in Visual mode |
 
 Helm templates work in arbitrary names below a chart's `templates/` directory,
 including `*.gotmpl`; presence of an ancestor `Chart.yaml` decides Helm mode.
@@ -130,4 +146,3 @@ in the included fixtures. Ruby needs a working `ruby-lsp` runtime. Scala needs
 a real sbt, Mill, or Scala CLI workspace and Java, so fixture attachment is not
 run automatically. A clean plugin install needs GitHub access; offline clean
 install cannot pass until plugins and parsers are available locally.
->>>>>>> e0fb2db (tweak)

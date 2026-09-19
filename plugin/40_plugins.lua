@@ -104,6 +104,88 @@ later(function()
   vim.keymap.set('n', '<Leader>v', '<Cmd>Neogit<CR>', { desc = 'Open Neogit' })
 end)
 
+-- Debugging ==================================================================
+
+-- Debug Adapter Protocol (DAP) support. Debug adapters are installed outside
+-- Neovim: LLVM provides `lldb-dap` for Odin and Zig, while Delve provides
+-- `dlv` for Go. See README for the required commands.
+now_if_args(function()
+  add({
+    'https://github.com/mfussenegger/nvim-dap',
+    'https://github.com/theHamsta/nvim-dap-virtual-text',
+    { src = 'https://github.com/igorlfs/nvim-dap-view', version = vim.version.range('1.*') },
+  })
+
+  local dap = require('dap')
+  dap.adapters.lldb = {
+    type = 'executable',
+    command = 'lldb-dap',
+    name = 'lldb',
+  }
+  dap.adapters.delve = {
+    type = 'server',
+    port = '${port}',
+    executable = {
+      command = 'dlv',
+      args = { 'dap', '--listen', '127.0.0.1:${port}' },
+      options = { detached = false },
+    },
+  }
+
+  local lldb_launch = {
+    name = 'Launch executable',
+    type = 'lldb',
+    request = 'launch',
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = false,
+    args = {},
+  }
+  dap.configurations.zig = { vim.deepcopy(lldb_launch) }
+  dap.configurations.odin = { vim.deepcopy(lldb_launch) }
+  dap.configurations.go = {
+    {
+      name = 'Launch package', type = 'delve', request = 'launch', mode = 'debug', program = '${file}',
+    },
+    {
+      name = 'Debug test', type = 'delve', request = 'launch', mode = 'test', program = '${file}',
+    },
+  }
+  dap.configurations.scala = {
+    {
+      name = 'Run or test file', type = 'scala', request = 'launch',
+      metals = { runType = 'runOrTestFile' },
+    },
+    {
+      name = 'Test target', type = 'scala', request = 'launch',
+      metals = { runType = 'testTarget' },
+    },
+  }
+
+  require('nvim-dap-virtual-text').setup({})
+  require('dap-view').setup({})
+
+  local map = function(mode, lhs, rhs, desc)
+    vim.keymap.set(mode, '<LocalLeader>d' .. lhs, rhs, { desc = desc })
+  end
+  map('n', 'v', '<Cmd>DapViewToggle<CR>', 'Toggle debug view')
+  map('n', 'b', dap.toggle_breakpoint, 'Toggle breakpoint')
+  map('n', 'B', function()
+    vim.ui.input({ prompt = 'Breakpoint condition: ' }, function(condition)
+      if condition and condition ~= '' then dap.set_breakpoint(condition) end
+    end)
+  end, 'Set conditional breakpoint')
+  map('n', 'c', dap.continue, 'Start or continue debugging')
+  map('n', 'n', dap.step_over, 'Step over')
+  map('n', 'i', dap.step_into, 'Step into')
+  map('n', 'o', dap.step_out, 'Step out')
+  map('n', 'r', dap.repl.open, 'Open debug REPL')
+  map('n', 'w', '<Cmd>DapViewWatch<CR>', 'Watch expression at cursor')
+  map('x', 'w', '<Cmd>DapViewWatch<CR>', 'Watch selected expression')
+end)
+
 -- Run commands ===============================================================
 
 later(function()
@@ -360,7 +442,9 @@ now_if_args(function()
     'ruby',
     'rust',
     'scala',
+    'odin',
     'yaml',
+    'zig',
     -- No maintained Tree-sitter parser is available for Org.
     -- Add here more languages with which you want to use tree-sitter
     -- To see available languages:

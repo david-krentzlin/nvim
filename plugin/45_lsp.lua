@@ -15,7 +15,7 @@ end
 
 now_if_args(function()
   vim.filetype.add({
-    extension = { gotmpl = 'gotmpl', helm = 'helm' },
+    extension = { gotmpl = 'gotmpl', helm = 'helm', odin = 'odin', zig = 'zig' },
     pattern = {
       ['.*/templates/.*'] = function(path) return Config.lsp_filetype(path) end,
       ['.*%.yaml%.gotmpl'] = function(path) return Config.lsp_filetype(path) end,
@@ -37,6 +37,7 @@ now_if_args(function()
     'bashls',
     'html',
     'expert',
+    'zls',
   })
 
   local metals_group = vim.api.nvim_create_augroup('nvim-metals', { clear = true })
@@ -67,6 +68,7 @@ Config.lsp_format_client = {
   ruby = 'ruby_lsp',
   rust = 'rust_analyzer',
   scala = 'metals',
+  zig = 'zls',
 }
 
 Config.lsp_format = function(bufnr)
@@ -99,7 +101,7 @@ now_if_args(function()
   local format_group = vim.api.nvim_create_augroup('lsp-format-on-save', { clear = true })
   vim.api.nvim_create_autocmd('BufWritePre', {
     group = format_group,
-    pattern = { '*.go', '*.rs', '*.scala', '*.rb', '*.json', '*.sh', '*.bash', '*.ex', '*.exs' },
+    pattern = { '*.go', '*.rs', '*.scala', '*.rb', '*.json', '*.sh', '*.bash', '*.ex', '*.exs', '*.zig' },
     callback = function(ev) Config.lsp_format(ev.buf) end,
   })
 

@@ -35,7 +35,9 @@ assert(vim.deep_equal(Config.treesitter_languages, {
   'ruby',
   'rust',
   'scala',
+  'odin',
   'yaml',
+  'zig',
 }))
 
 assert(filetype(root .. '/chart/templates/deploy.yaml') == 'helm')
@@ -60,6 +62,7 @@ assert(vim.lsp.is_enabled('rust_analyzer'))
 assert(vim.lsp.is_enabled('bashls'))
 assert(vim.lsp.is_enabled('html'))
 assert(vim.lsp.is_enabled('expert'))
+assert(vim.lsp.is_enabled('zls'))
 assert(not vim.lsp.is_enabled('elixirls'))
 assert(not vim.lsp.is_enabled('metals'))
 
@@ -82,6 +85,9 @@ assert(not scls.settings.feature_paths)
 assert(not scls.settings.feature_citations)
 
 assert(vim.deep_equal(vim.lsp.config.rust_analyzer.filetypes, { 'rust' }))
+assert(vim.deep_equal(vim.lsp.config.zls.cmd, { 'zls' }))
+assert(vim.deep_equal(vim.lsp.config.zls.filetypes, { 'zig', 'zir' }))
+assert(vim.deep_equal(vim.lsp.config.zls.root_markers, { 'build.zig', 'zls.json', '.git' }))
 assert(vim.tbl_contains(vim.lsp.config.bashls.filetypes, 'bash'))
 assert(vim.deep_equal(vim.lsp.config.html.filetypes, { 'html' }))
 assert(vim.tbl_contains(vim.lsp.config.expert.filetypes, 'elixir'))
