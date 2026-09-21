@@ -107,8 +107,8 @@ end)
 -- Debugging ==================================================================
 
 -- Debug Adapter Protocol (DAP) support. Debug adapters are installed outside
--- Neovim: LLVM provides `lldb-dap` for Odin and Zig, while Delve provides
--- `dlv` for Go. See README for the required commands.
+-- Neovim: LLVM provides `lldb-dap` for Odin, Rust, and Zig, while Delve
+-- provides `dlv` for Go. See README for the required commands.
 now_if_args(function()
   add({
     'https://github.com/mfussenegger/nvim-dap',
@@ -145,6 +145,7 @@ now_if_args(function()
   }
   dap.configurations.zig = { vim.deepcopy(lldb_launch) }
   dap.configurations.odin = { vim.deepcopy(lldb_launch) }
+  dap.configurations.rust = { vim.deepcopy(lldb_launch) }
   dap.configurations.go = {
     {
       name = 'Launch package', type = 'delve', request = 'launch', mode = 'debug', program = '${file}',

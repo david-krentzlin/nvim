@@ -80,15 +80,15 @@ server supports it.
 | JSON | `vscode-json-language-server` | From `vscode-langservers-extracted`. |
 | Markdown | `zk`, `simple-completion-language-server` | `zk` needs `.zk` root. |
 | Org | `simple-completion-language-server` | |
-| Rust | `rust-analyzer` | |
+| Rust | `rust-analyzer`, LLVM `lldb-dap` | Language-server and debugger support. |
 | Bash | `bash-language-server` | |
 | HTML | `vscode-html-language-server` | |
 | Elixir | `expert` | Install with `mise use expert` or `brew install expert`. |
 
 ## Debugging
 
-Install debug adapters separately: LLVM's `lldb-dap` debugs compiled Zig and
-Odin executables; Delve's `dlv` debugs Go packages and tests. `nvim-dap`,
+Install debug adapters separately: LLVM's `lldb-dap` debugs compiled Zig,
+Odin, and Rust executables; Delve's `dlv` debugs Go packages and tests. `nvim-dap`,
 inline virtual text, and `dap-view` are installed by this configuration.
 Metals uses its dedicated DAP integration for Scala.
 
