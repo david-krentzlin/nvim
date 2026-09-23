@@ -49,6 +49,7 @@ vim.keymap.set('x', 'mg', '<Cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Git
 -- exist only where an action must have a second key.
 Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>m', desc = '+Cursors' },
+  { mode = 'n', keys = '<Leader>n', desc = '+Notes' },
   { mode = 'n', keys = '<Leader>$', desc = '+Run commands' },
   { mode = 'n', keys = '<LocalLeader>d', desc = '+Debug' },
   { mode = 'n', keys = '<LocalLeader>t', desc = '+Tests' },
@@ -128,6 +129,49 @@ local toggle_visual_line_comments = function()
   MiniComment.toggle_lines(math.min(first, last), math.max(first, last))
 end
 
+local notebook_directory = function()
+  local path = vim.env.ZK_NOTEBOOK_DIR
+  if path and path ~= '' then return path end
+
+  vim.notify('Set ZK_NOTEBOOK_DIR before using note mappings', vim.log.levels.ERROR)
+end
+
+local open_scratch_note = function()
+  local notebook = notebook_directory()
+  if not notebook then return end
+
+  local scratch = vim.fs.joinpath(notebook, 'scratch.md')
+  if vim.fn.filereadable(scratch) == 0 then
+    vim.notify('Scratch note does not exist: ' .. scratch, vim.log.levels.ERROR)
+    return
+  end
+
+  vim.cmd.edit(vim.fn.fnameescape(scratch))
+  vim.cmd.normal({ args = { 'G' }, bang = true })
+end
+
+local zk_command = function(name, options)
+  local notebook = notebook_directory()
+  if not notebook then return end
+
+  options = vim.tbl_extend('force', { notebook_path = notebook }, options or {})
+  require('zk.commands').get(name)(options)
+end
+
+local search_notes = function()
+  vim.ui.input({ prompt = 'Search notes: ' }, function(query)
+    if query and query ~= '' then
+      zk_command('ZkNotes', { sort = { 'modified' }, match = { query } })
+    end
+  end)
+end
+
+local create_named_note = function()
+  vim.ui.input({ prompt = 'Note title: ' }, function(title)
+    if title and title ~= '' then zk_command('ZkNew', { title = title }) end
+  end)
+end
+
 -- Oil follows Helix's direct Space-mode explorer mappings.
 local open_oil_parent = function()
   require('oil').open(current_directory())
@@ -142,6 +186,10 @@ nmap_leader('F', pick_current_directory_files, 'Files in current directory')
 nmap_leader('b', '<Cmd>Pick buffers<CR>', 'Buffers')
 nmap_leader('j', '<Cmd>Pick list scope="jump"<CR>', 'Jumplist')
 nmap_leader('g', '<Cmd>Pick git_files scope="modified"<CR>', 'Changed files')
+nmap_leader('nc', open_scratch_note, 'Open scratch note')
+nmap_leader('nn', create_named_note, 'Create named note')
+nmap_leader('no', function() zk_command('ZkNotes', { sort = { 'modified' } }) end, 'Browse notes')
+nmap_leader('nf', search_notes, 'Search notes')
 nmap_leader('s', '<Cmd>AerialToggle<CR>', 'Toggle outline')
 nmap_leader('d', '<Cmd>Pick diagnostic scope="current"<CR>', 'Document diagnostics')
 nmap_leader('D', '<Cmd>Pick diagnostic scope="all"<CR>', 'Workspace diagnostics')
@@ -177,3 +225,4 @@ xmap_leader('p', '"+p', 'Paste after from clipboard')
 xmap_leader('P', '"+P', 'Paste before from clipboard')
 xmap_leader('y', '"+y', 'Yank to clipboard')
 xmap_leader('R', '"_d"+P', 'Replace with clipboard')
+xmap_leader('nf', '<Cmd>ZkMatch<CR>', 'Search selected notes')

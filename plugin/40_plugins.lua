@@ -129,6 +129,25 @@ later(function()
   vim.keymap.set('n', '<LocalLeader>mr', '<Cmd>RenderMarkdown toggle<CR>', { desc = 'Toggle Markdown rendering' })
 end)
 
+-- Zettelkasten notes ========================================================
+
+-- `zk` itself is configured as a native Neovim LSP in 'plugin/45_lsp.lua'.
+-- Keep its lifecycle there: zk-nvim adds notebook commands and MiniPick UI,
+-- but must not start a second client for the same Markdown buffer.
+later(function()
+  add({ 'https://github.com/zk-org/zk-nvim' })
+
+  if vim.fn.executable('zk') == 0 then
+    vim.notify('zk-nvim needs the `zk` executable on PATH', vim.log.levels.WARN)
+    return
+  end
+
+  require('zk').setup({
+    picker = 'minipick',
+    lsp = { auto_attach = { enabled = false } },
+  })
+end)
+
 -- Git interface ==============================================================
 
 later(function()

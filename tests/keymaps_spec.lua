@@ -13,6 +13,19 @@ local tests_clue = vim.tbl_filter(function(clue)
 end, Config.leader_group_clues)
 assert(#tests_clue == 1)
 
+local notes_clue = vim.tbl_filter(function(clue)
+  return clue.mode == 'n' and clue.keys == '<Leader>n' and clue.desc == '+Notes'
+end, Config.leader_group_clues)
+assert(#notes_clue == 1)
+
+for _, key in ipairs({ 'nc', 'nn', 'no', 'nf' }) do
+  local note_mapping = vim.fn.maparg('<Space>' .. key, 'n', false, true)
+  assert(note_mapping.desc:find('note', 1, true) or note_mapping.desc == 'Search notes')
+end
+
+local visual_note_search = vim.fn.maparg('<Space>nf', 'x', false, true)
+assert(visual_note_search.desc == 'Search selected notes')
+
 local original_start = MiniJump2d.start
 local options
 MiniJump2d.start = function(opts) options = opts end

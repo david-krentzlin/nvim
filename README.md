@@ -34,6 +34,7 @@ Space keys follow Helix where Neovim has an equivalent:
 | `<Space>f` / `<Space>F` | Files at root / current directory |
 | `<Space>e` / `<Space>.` / `-` | Oil root / file directory / parent directory |
 | `<Space>b` / `<Space>j` / `<Space>g` | Buffers / jumplist / changed files |
+| `<Space>nc` / `<Space>nn` / `<Space>no` / `<Space>nf` | Scratch note / new note / browse notes / search notes |
 | `<Space>s` / `<Space>o` | Toggle Aerial outline |
 | `<Space>d` / `<Space>D` | Document / workspace diagnostics |
 | `<Space>a` / `<Space>r` / `<Space>h` / `<Space>k` | Code action / rename / references / hover |
@@ -62,6 +63,23 @@ Multiple cursors use `<Space>m`, never arrow keys:
 | `Esc` | Clear active cursors |
 
 Oil: edit entries, then `:write` to apply. `^` moves to parent; `q` closes.
+
+## Notes
+
+`zk-nvim` uses the `zk` notebook selected by `ZK_NOTEBOOK_DIR`. Set it in the
+startup file for the shell from which you launch Neovim:
+
+```sh
+export ZK_NOTEBOOK_DIR="$HOME/code/github/david-krentzlin/workspace/notes"
+```
+
+Restart the terminal (or source its startup file) before starting Neovim.
+`<Space>nc` opens the existing `scratch.md` capture buffer at its end.
+`<Space>nn` asks `zk` to create a titled note using the notebook template;
+`<Space>no` browses modified notes, and `<Space>nf` searches them. In Visual
+mode, `<Space>nf` searches the selected text. Markdown links use `[[wiki link]]`
+syntax: use `gd` on a link to follow it, and `K` to preview it when the zk LSP
+is attached.
 
 ## Language servers
 
