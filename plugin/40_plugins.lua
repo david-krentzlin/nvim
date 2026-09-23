@@ -95,6 +95,40 @@ Config.later(function()
   require('aerial').setup(Config.aerial_config)
 end)
 
+-- Markdown renderer =========================================================
+
+later(function()
+  add({ 'https://github.com/MeanderingProgrammer/render-markdown.nvim' })
+
+  require('render-markdown').setup({
+    enabled = true,
+    file_types = { 'markdown' },
+    anti_conceal = { enabled = true },
+    heading = {
+      position = 'inline',
+      width = 'block',
+      border = true,
+    },
+    checkbox = {
+      unchecked = { icon = '󰄱 ' },
+      checked = { icon = '󰱒 ' },
+    },
+    code = {
+      sign = false,
+      width = 'block',
+      border = 'thick',
+      right_pad = 1,
+    },
+    completions = { blink = { enabled = true } },
+    win_options = {
+      conceallevel = { default = vim.o.conceallevel, rendered = 3 },
+      concealcursor = { default = vim.o.concealcursor, rendered = '' },
+    },
+  })
+
+  vim.keymap.set('n', '<LocalLeader>mr', '<Cmd>RenderMarkdown toggle<CR>', { desc = 'Toggle Markdown rendering' })
+end)
+
 -- Git interface ==============================================================
 
 later(function()

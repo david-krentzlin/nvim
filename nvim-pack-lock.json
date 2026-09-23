@@ -51,7 +51,7 @@
       "src": "https://github.com/mfussenegger/nvim-dap"
     },
     "nvim-dap-view": {
-      "rev": "210b2c0e4acc08aad23fbd5a7989dd0169f716d0",
+      "rev": "e766b3d8acef97e7e8b29f7f421aa4977b9978e1",
       "src": "https://github.com/igorlfs/nvim-dap-view",
       "version": "1.0.0 - 2.0.0"
     },
@@ -62,19 +62,6 @@
     "nvim-lspconfig": {
       "rev": "85e732c62ac59ab7c12df71ddd020baa87948390",
       "src": "https://github.com/neovim/nvim-lspconfig"
-    },
-    "nvim-dap": {
-      "rev": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264",
-      "src": "https://github.com/mfussenegger/nvim-dap"
-    },
-    "nvim-dap-virtual-text": {
-      "rev": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6",
-      "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
-    },
-    "nvim-dap-view": {
-      "rev": "e766b3d8acef97e7e8b29f7f421aa4977b9978e1",
-      "src": "https://github.com/igorlfs/nvim-dap-view",
-      "version": "1.0.0 - 2.0.0"
     },
     "nvim-metals": {
       "rev": "a4b20656bf1014404dd63bf9fd5f22fcc50fee52",
@@ -104,6 +91,10 @@
     "quicker.nvim": {
       "rev": "4a6883cb13fe097a20a046eb55f6dffd239276e3",
       "src": "https://github.com/stevearc/quicker.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "sidekick.nvim": {
       "rev": "3d80a47e6375f6d647c9695d3afea6fa1b3275df",

@@ -18,6 +18,12 @@
 -- Enable spelling and wrap for window
 vim.cmd('setlocal spell wrap')
 
+-- Rendered Markdown remains editable; reveal its syntax when needed.
+vim.keymap.set('n', '<LocalLeader>mR', '<Cmd>RenderMarkdown buf_toggle<CR>', {
+  buffer = 0,
+  desc = 'Toggle Markdown rendering for buffer',
+})
+
 -- Fold with tree-sitter
 vim.cmd('setlocal foldmethod=expr foldexpr=v:lua.vim.treesitter.foldexpr()')
 
