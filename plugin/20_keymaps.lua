@@ -100,6 +100,15 @@ Config.mini_ai_clues = {
   { mode = { 'o', 'x' }, keys = 'iP', desc = 'Inside parameter' },
   { mode = { 'o', 'x' }, keys = 'iX', desc = 'Inside comment' },
   { mode = { 'o', 'x' }, keys = 'i?', desc = 'Inside prompted textobject' },
+  { mode = { 'n' }, keys = 'sa', desc = 'Surround add' },
+  { mode = { 'n' }, keys = 'sr', desc = 'Surround replace' },
+  { mode = { 'n' }, keys = 'sd', desc = 'Surround delete' },
+  { mode = { 'n' }, keys = 'sh', desc = 'Surround highlight' },
+  { mode = { 'n' }, keys = 'sf', desc = 'Surround find' },
+  { mode = { 'n' }, keys = 'sF', desc = 'Surround find backwards' },
+  { mode = { 'n', 'x' }, keys = 'ms', desc = 'Surround add (Helix)' },
+  { mode = { 'n' }, keys = 'mr', desc = 'Surround replace (Helix)' },
+  { mode = { 'n' }, keys = 'md', desc = 'Surround delete (Helix)' },
 }
 
 local nmap_leader = function(key, rhs, desc)

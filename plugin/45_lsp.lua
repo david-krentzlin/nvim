@@ -36,7 +36,9 @@ now_if_args(function()
     'rust_analyzer',
     'bashls',
     'html',
+    'ada_ls',
     'expert',
+    'elp',
     'zls',
   })
 
@@ -62,6 +64,7 @@ end)
 
 Config.lsp_format_client = {
   bash = 'bashls',
+  ada = 'ada_ls',
   elixir = 'expert',
   go = 'gopls',
   json = 'jsonls',
@@ -101,7 +104,9 @@ now_if_args(function()
   local format_group = vim.api.nvim_create_augroup('lsp-format-on-save', { clear = true })
   vim.api.nvim_create_autocmd('BufWritePre', {
     group = format_group,
-    pattern = { '*.go', '*.rs', '*.scala', '*.rb', '*.json', '*.sh', '*.bash', '*.ex', '*.exs', '*.zig' },
+    pattern = {
+      '*.adb', '*.ads', '*.ada', '*.go', '*.rs', '*.scala', '*.rb', '*.json', '*.sh', '*.bash', '*.ex', '*.exs', '*.zig',
+    },
     callback = function(ev) Config.lsp_format(ev.buf) end,
   })
 

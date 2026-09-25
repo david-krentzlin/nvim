@@ -44,7 +44,9 @@ Space keys follow Helix where Neovim has an equivalent:
 | `<Space>/` / `<Space>?` / `<Space>*` | Workspace grep / commands / grep word |
 | `<Space>w` | Native window prefix |
 
-Match prefix: `mm` matching bracket; `ms`, `mr`, `md` are Mini.surround;
+Match prefix: `mm` matching bracket. Mini.surround keeps its standard `s`
+grammar and also provides Helix-style aliases: `ms` (add), `mr` (replace), and
+`md` (delete).
 `mig` selects current Git-index hunk; `mg` shows hunk overlay, then visual
 `mg` shows selected hunk history. Use Mini.ai with Neovim's native grammar:
 `diF` deletes inside a function definition, `caC` changes around a class, and
@@ -101,7 +103,62 @@ server supports it.
 | Rust | `rust-analyzer`, LLVM `lldb-dap` | Language-server and debugger support. |
 | Bash | `bash-language-server` | |
 | HTML | `vscode-html-language-server` | |
+| Ada | `ada_language_server`, GNAT toolchain | Managed per project by mise. |
 | Elixir | `expert` | Install with `mise use expert` or `brew install expert`. |
+| Erlang | `elp`, Erlang/OTP | Managed per project by mise. |
+
+### Erlang via mise
+
+Neovim activates the native `elp` LSP configuration for `*.erl` files. It does
+not install or select Erlang/OTP or ELP: the project owns both through mise.
+Add the project's required Erlang/OTP version and the `elp` executable to that
+project's `mise.toml` (or existing mise configuration), then verify from the
+project root:
+
+```sh
+mise exec -- erl -version
+mise exec -- elp version
+```
+
+Start Neovim from the project root, or ensure its environment has been
+activated by mise. ELP discovers rebar3 projects from `rebar.config` or
+`rebar.config.script`; projects with another layout may need `.elp.toml`.
+Use `:LspInfo` in an `*.erl` buffer to confirm that `elp` attached.
+
+### Ada via mise
+
+Neovim enables the upstream `ada_ls` configuration with `vim.lsp.enable`; it
+does not install or select the Ada tools. Add pinned providers for these
+executables to each Ada project's `mise.toml`:
+
+| Executable | Why it is needed |
+| --- | --- |
+| `ada_language_server` | LSP navigation, diagnostics, completion, renaming, and formatting. |
+| `gnat`, `gprbuild`, `gnatpp` | GNAT compiler, project build tool, and formatter used by the Ada toolchain. |
+| `alr` | Only for projects that use Alire (`alire.toml`). |
+
+Mise has no current short-name for `ada_language_server`, so choose and pin an
+explicit trusted provider rather than adding an unverified shorthand. From the
+Ada project root, verify the resulting environment before starting Neovim:
+
+```sh
+mise exec -- ada_language_server --help
+mise exec -- gnat --version
+mise exec -- gprbuild --version
+mise exec -- gnatpp --version
+# Only for Alire projects:
+mise exec -- alr version
+```
+
+Open Neovim from the project root (or through an activated mise shell). ALS
+discovers project roots from `alire.toml`, a `*.gpr` or `*.adc` file, a
+Makefile, or Git. If a workspace has more than one project file or needs
+scenario variables, keep a tracked `.als.json` in that project rather than
+adding a machine-specific `after/lsp/ada_ls.lua`; ALS loads it at the workspace
+root. The upstream `ada_ls` configuration already provides these root rules, so
+this config intentionally has no redundant `after/lsp/ada_ls.lua` override.
+Use `:LspInfo` in an `*.adb`, `*.ads`, or `*.ada` buffer to confirm attachment.
+Ada buffers format through ALS on save.
 
 ## Debugging
 

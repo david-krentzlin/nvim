@@ -637,7 +637,8 @@ later(function() require('mini.splitjoin').setup() end)
 --
 -- Example usage (this may feel intimidating at first, but after practice it
 -- becomes second nature during text editing):
--- - `saiw)` - *s*urround *a*dd for *i*nside *w*ord parenthesis (`)`)
+-- - `saiw)` / `msiw)` - *s*urround *a*dd (or its Helix-style alias) for
+--                         *i*nside *w*ord parenthesis (`)`)
 -- - `sdf`   - *s*urround *d*elete *f*unction call (like `f(var)` -> `var`)
 -- - `srb[`  - *s*urround *r*eplace *b*racket (any of [], (), {}) with padded `[`
 -- - `sf*`   - *s*urround *f*ind right part of `*` pair (like bold in markdown)
@@ -652,13 +653,13 @@ later(function() require('mini.splitjoin').setup() end)
 -- - `:h MiniSurround-surrounding-specification` - examples of custom surroundings
 -- - `:h MiniSurround-vim-surround-config` - alternative set of action mappings
 later(function()
-  require('mini.surround').setup({
-    mappings = {
-      add = 'ms',
-      delete = 'md',
-      replace = 'mr',
-    },
-  })
+  require('mini.surround').setup()
+
+  -- Keep Mini's standard `s` grammar and offer Helix-style aliases for the
+  -- three editing actions used most often.
+  vim.keymap.set({ 'n', 'x' }, 'ms', 'sa', { remap = true, desc = 'Surround add (Helix)' })
+  vim.keymap.set('n', 'md', 'sd', { remap = true, desc = 'Surround delete (Helix)' })
+  vim.keymap.set('n', 'mr', 'sr', { remap = true, desc = 'Surround replace (Helix)' })
 end)
 
 -- Highlight and remove trailspace. Temporarily stops highlighting in Insert mode
